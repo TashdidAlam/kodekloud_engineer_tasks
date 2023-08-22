@@ -12,20 +12,32 @@ For security reasons the xFusionCorp Industries security team has decided to use
 ssh tony@stapp01
 ```
 
-`sudo su`
+```
+sudo su
+```
 
 Command to create new user with uid
 
-`useradd -u 1128 yousuf`
+```
+useradd -u 1128 yousuf
+```
 
-`id yousuf`
+```
+id yousuf
+```
 
-`cat /etc/passwd | grep yousuf`
+```
+cat /etc/passwd | grep yousuf
+```
 
 Command to change user home directory
 
-`usermod -d /var/www/yousuf -m yousuf`
+```
+usermod -d /var/www/yousuf -m yousuf
+```
 
-`cat /etc/passwd |grep yousuf`
+```
+cat /etc/passwd |grep yousuf
+```
 
 Click on confirm to complete the task
