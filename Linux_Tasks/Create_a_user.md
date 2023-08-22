@@ -8,9 +8,9 @@ For security reasons the xFusionCorp Industries security team has decided to use
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. All the Best</span>
 
-```ssh tony@stapp01```
+`ssh tony@stapp01`
 
-```sudo su -```
+`sudo su`
 
 Command to create new user with uid
 
