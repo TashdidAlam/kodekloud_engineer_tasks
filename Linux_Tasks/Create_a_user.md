@@ -6,7 +6,7 @@ For security reasons the xFusionCorp Industries security team has decided to use
 
 **b. Set UID to 1128 and its home directory to /var/www/yousuf.**
 
-<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. All the Best</span>
+<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
 ```
 ssh tony@stapp01
