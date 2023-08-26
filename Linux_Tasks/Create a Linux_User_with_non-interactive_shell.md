@@ -33,3 +33,4 @@ id rose
 ```
 cat /etc/passwd |grep rose
 ```
+Click on confirm to complete the task
