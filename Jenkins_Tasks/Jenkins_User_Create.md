@@ -20,7 +20,7 @@ Note:
 
 3. For these kind of scenarios that required changes to be done from a web UI, please take screenshots of your work so that you can share the same with us for review purpose (in case your task is marked incomplete or failed). You may also consider using a screen recording software such as loom.com to record and share your work.
 
-
+<span style="color: red;">The below tips based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
 The step-by-step instructions on how to achieve the tasks described:
 
