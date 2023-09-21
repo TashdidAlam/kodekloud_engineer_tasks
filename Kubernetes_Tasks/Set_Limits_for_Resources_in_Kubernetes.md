@@ -41,3 +41,4 @@ To verify that the pod has been created successfully and check its resource sett
 ```
 kubectl describe pod httpd-pod
 ```
+Click on confirm to complete the task
