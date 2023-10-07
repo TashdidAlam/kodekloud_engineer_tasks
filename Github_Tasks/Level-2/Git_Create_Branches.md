@@ -5,6 +5,8 @@ Nautilus developers are actively working on one of the project repositories, `/u
 
 **Please do not try to make any changes in the code.**
 
+<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
+
 SSH to storage server and switch to root
 
 ```
