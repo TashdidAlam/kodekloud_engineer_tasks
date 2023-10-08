@@ -37,4 +37,6 @@ crontab -l
 ```
 ls -la /tmp/
 ```
+Here Only shown for App Server 1, Do the same on other servers
+
 Click on confirm to complete the task
