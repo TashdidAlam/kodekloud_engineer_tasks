@@ -8,7 +8,7 @@ One of the Nautilus project developers need access to run docker commands on App
 **SSH into App Server 1 & switch to root**:
 
    ```bash
-   ssh siva@AppServer1_IP
+   ssh tony@stapp01
    ```
    ```
    sudo su
