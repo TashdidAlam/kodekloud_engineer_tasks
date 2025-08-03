@@ -6,31 +6,31 @@ Create a Linux User with a non-interactive shell The System Admin Team of Xfusio
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-Logging in app03 server
+# Steps
 
-```
-ssh banner@stapp03
-```
-
-```
-sudo su
-```
-Check if user exist or not
-
-```
-id rose
-```
-If not then add user
-
-```
-adduser rose  -s /sbin/nologin
-```
-Validate user creation
-
-```
-id rose
-```
-```
-cat /etc/passwd |grep rose
-```
-Click on confirm to complete the task
+1. **Log in to app03 server**
+    ```
+    ssh banner@stapp03
+    ```
+2. **Switch to root user**
+    ```
+    sudo su
+    ```
+3. **Check if user exists**
+    ```
+    id rose
+    ```
+4. **Add user with non-interactive shell (if not exists)**
+    ```
+    adduser rose  -s /sbin/nologin
+    ```
+    > **Why use `-s /sbin/nologin`?**  
+    > This option sets the user's shell to `/sbin/nologin`, which prevents interactive logins. It is a security best practice for service accounts or users that do not require shell access, such as those used by system tools or background processes.
+5. **Validate user creation**
+    ```
+    id rose
+    ```
+    ```
+    cat /etc/passwd |grep rose
+    ```
+6. **Click on confirm to complete the task**
