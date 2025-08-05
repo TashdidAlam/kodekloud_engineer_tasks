@@ -7,36 +7,55 @@ The Nautilus system admins team has prepared scripts to automate several day-to-
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-**At first login to all App server  & Switch to  root user**
-```
-ssh tony@stapp01
-sudo su
-```
+# Steps
 
-**Install cronie package on server start & enable**
-```
-yum install cronie -y
-```
-```
-systemctl start crond.service
-systemctl status crond.service
-```
-**Create a cronjob  as per the task for root user**
-```
-crontab -e
-```
-**Add this inside**
-```
-*/5 * * * * echo hello > /tmp/cron_text` for root user.**
-```
-**Check cron job for user root**
-```
-crontab -l
-```
-**Validate  cron_text file is created successfully, before that done finish the task**
-```
-ls -la /tmp/
-```
-Here Only shown for App Server 1, Do the same on other servers
+**Step 1: Log in to each App Server and switch to root user**
+- Connect to each app server and gain root privileges.
+  ```
+  ssh tony@stapp01
+  sudo su
+  ```
+  > *Establishes a secure shell session to the app server as user tony, then switches to root for administrative access.*
 
-Click on confirm to complete the task
+**Step 2: Install and start the cronie package**
+- Install the cron service and ensure it is running.
+  ```
+  yum install cronie -y
+  ```
+  > *Installs the cronie package, which provides the cron service for scheduling jobs. The `-y` flag auto-confirms prompts.*
+  ```
+  systemctl start crond.service
+  systemctl status crond.service
+  ```
+  > *Starts the cron daemon and checks its status to ensure it is running.*
+
+**Step 3: Create the cron job for the root user**
+- Edit the root user's crontab to add the required job.
+  ```
+  crontab -e
+  ```
+  > *Opens the root user's crontab file for editing.*
+  - Add the following line to schedule the job every 5 minutes:
+    ```
+    */5 * * * * echo hello > /tmp/cron_text
+    ```
+    > *This cron job writes 'hello' to /tmp/cron_text every 5 minutes, as required by the task.*
+
+**Step 4: Verify the cron job is set**
+- List the current cron jobs for the root user.
+  ```
+  crontab -l
+  ```
+  > *Displays the list of scheduled cron jobs for the root user to confirm the entry was added.*
+
+**Step 5: Validate cron job execution**
+- Check if the cron job output file is created.
+  ```
+  ls -la /tmp/
+  ```
+  > *Lists files in /tmp to verify that cron_text is being created by the cron job.*
+
+> **Note:** The above steps are shown for App Server 1. Repeat the same steps on all other app servers as required.
+
+**Step 6: Complete the task**
+- Click on confirm to complete the task

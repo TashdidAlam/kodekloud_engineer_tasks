@@ -5,34 +5,57 @@ The xFusionCorp Industries security team recently did a security audit of their 
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-Logging in app03 server
+# Steps
 
-```
-ssh banner@stapp03
-```
+**Step 1: Log in to App Server 3**
+- Connect to the target server using SSH.
+  ```
+  ssh banner@stapp03
+  ```
+  > *Establishes a secure shell session to App Server 3 as user banner.*
 
-```
-sudo su
-```
-Install the SElinux 
+**Step 2: Switch to the root user**
+- Gain root privileges to install packages and edit system files.
+  ```
+  sudo su
+  ```
+  > *Switches to the root user for administrative access.*
 
-```
-yum -y install selinux*
-```
+**Step 3: Install SElinux packages**
+- Install all required SElinux packages using yum.
+  ```
+  yum -y install selinux*
+  ```
+  > *Installs SElinux and related packages. The `-y` flag auto-confirms prompts.*
 
-Check the existing SElinux status
-```
-sestatus
-```
-```
-cat /etc/selinux/config | grep SELINUX
-```
-Edit the /etc/selinux/config  file and correct the changes as per below
+**Step 4: Check the current SElinux status**
+- View the current status and configuration of SElinux.
+  ```
+  sestatus
+  ```
+  > *Displays the current operational status of SElinux.*
+  ```
+  cat /etc/selinux/config | grep SELINUX
+  ```
+  > *Shows the current configuration lines for SElinux in the config file.*
 
-```
-vi /etc/selinux/config
-```
-```
-cat /etc/selinux/config | grep SELINUX
-```
-Click on confirm to complete the task
+**Step 5: Disable SElinux permanently**
+- Edit the configuration file to set SElinux to disabled.
+  ```
+  vi /etc/selinux/config
+  ```
+  > *Opens the SElinux config file in the vi editor. Change the line `SELINUX=enforcing` or `SELINUX=permissive` to:*
+  >
+  >     SELINUX=disabled
+  >
+  > *This ensures SElinux will be disabled after the next reboot.*
+
+**Step 6: Verify the configuration change**
+- Confirm that the config file now has SElinux set to disabled.
+  ```
+  cat /etc/selinux/config | grep SELINUX
+  ```
+  > *Checks that the SELINUX parameter is set to 'disabled'.*
+
+**Step 7: Complete the task**
+- Click on confirm to complete the task
