@@ -5,22 +5,35 @@ During the weekly meeting, the Nautilus DevOps team discussed about the automati
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-First install epel-release on jump host
-```
-sudo yum install epel-release
-```
+# Steps
 
-Then install pip3
-```
-sudo yum install python3-pip
-```
+**Step 1: Install epel-release on jump host**
+- Enable access to additional packages from the EPEL repository.
+  ```
+  sudo yum install epel-release
+  ```
+  > *Installs the EPEL repository, which provides extra packages not included in the default repositories. Required for some dependencies.*
 
-Now install the required ansible
-```
-sudo pip3 install ansible==4.10.0
-```
-Now check the version of ansible
-```
-ansible --version
-```
-Click on confirm to complete the task
+**Step 2: Install pip3 (Python 3 package manager)**
+- Ensure pip3 is available for installing Python packages globally.
+  ```
+  sudo yum install python3-pip
+  ```
+  > *Installs pip3, the package manager for Python 3, needed to install Ansible via pip.*
+
+**Step 3: Install Ansible version 4.10.0 globally using pip3**
+- Use pip3 to install the required version of Ansible for all users.
+  ```
+  sudo pip3 install ansible==4.10.0
+  ```
+  > *Installs Ansible version 4.10.0 system-wide, making the binary available to all users.*
+
+**Step 4: Verify Ansible installation and version**
+- Check that Ansible is installed and available globally.
+  ```
+  ansible --version
+  ```
+  > *Displays the installed Ansible version and confirms the binary is accessible from the command line.*
+
+**Step 5: Complete the task**
+- Click on confirm to complete the task
