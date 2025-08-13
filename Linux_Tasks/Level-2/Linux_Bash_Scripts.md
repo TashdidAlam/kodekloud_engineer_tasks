@@ -1,63 +1,65 @@
 # Question
-The production support team of xFusionCorp Industries is working on developing some bash scripts to automate different day to day tasks. One is to create a bash script for taking websites backup. They have a static website running on App Server 3 in Stratos Datacenter, and they need to create a bash script named ecommerce_backup.sh which should accomplish the following tasks. (Also remember to place the script under /scripts directory on App Server 3).
+The production support team of xFusionCorp Industries is working on developing bash scripts to automate different day-to-day tasks. One requirement is to create a bash script for taking website backups. They have a static website running on App Server 3 in Stratos Datacenter, and need to create a bash script named `ecommerce_backup.sh` to accomplish the following tasks. (Place the script under `/scripts` directory on App Server 3.)
 
 **a. Create a zip archive named `xfusioncorp_ecommerce.zip` of `/var/www/html/ecommerce` directory.**
-
-**b. Save the archive in `/backup/` on `App Server 3`. This is a temporary storage, as backups from this location will be clean on weekly basis. Therefore, we also need to save this backup archive on `Nautilus Backup Server`.**
-
-**c. Copy the created archive to Nautilus Backup Server server in `/backup/` location.**
-
-**d. Please make sure script won't ask for password while copying the archive file. Additionally, the respective server user (for example, `tony` in case of `App Server 1`) must be able to run it.**
+**b. Save the archive in `/backup/` on App Server 3.**
+**c. Copy the created archive to Nautilus Backup Server in `/backup/` location.**
+**d. Ensure the script won't ask for password while copying the archive file. The respective server user (e.g., `banner` for App Server 3) must be able to run it.**
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-ssh into app server 3
-```
-ssh banner@stapp03
-```
+# Steps
 
-Now create a script in /scripts folder
-```
-vi /scripts/ecommerce_backup.sh
-```
+**Step 1: SSH into App Server 3**
+- Connect to the target server using SSH.
+  ```
+  ssh banner@stapp03
+  ```
+  > *Establishes a secure shell session to App Server 3 as user banner.*
 
-Add these commands in the script
-```
-#!/bin/bash
+**Step 2: Create the backup script in /scripts directory**
+- Open a new file for the backup script.
+  ```
+  vi /scripts/ecommerce_backup.sh
+  ```
+  > *Creates and opens the script file for editing in the /scripts directory.*
 
-zip -r /backup/xfusioncorp_ecommerce.zip /var/www/html/ecommerce
+**Step 3: Add commands to the script**
+- Insert the following lines into the script:
+  ```
+  #!/bin/bash
+  zip -r /backup/xfusioncorp_ecommerce.zip /var/www/html/ecommerce
+  scp /backup/xfusioncorp_ecommerce.zip clint@stbkp01:/backup
+  ```
+  > *Creates a zip archive of the website directory and securely copies it to the backup server.*
 
-scp /backup/xfusioncorp_ecommerce.zip clint@stbkp01:/backup
-```
+**Step 4: Set up password-less SSH for file transfer**
+- Generate an SSH key pair and copy it to the backup server.
+  ```
+  ssh-keygen
+  ssh-copy-id clint@stbkp01
+  ssh clint@stbkp01
+  exit
+  ```
+  > *Generates a key pair and copies the public key to the backup server, enabling password-less authentication for secure file transfer. Test login to confirm no password prompt.*
 
-Then create a keygen and copy the key to the backup server so that the bash script will not require any password
-```
-ssh-keygen
-```
-Copy the key on the backup server & cross-check login without password prompt
-```
-ssh-copy-id clint@stbkp01
-```
-```
-ssh clint@stbkp01
-```
-```
-exit
-```
-Now go to scripts folder and run the bash scripts by this command
-```
-sh ecommerce_backup.sh
-```
-[Optional]
-Now you can check the backup folder for the zip file on both app02 and backup server. If you find the zip file then it should be done.
-```
-ls -la /backup
-```
-```
-ssh clint@stbkp01
-```
-```
-ls -la /backup
-```
+**Step 5: Run the backup script**
+- Execute the script to perform the backup and transfer.
+  ```
+  cd /scripts
+  sh ecommerce_backup.sh
+  ```
+  > *Runs the backup script, which creates the archive and transfers it to the backup server.*
 
-Click on confirm to complete the task
+**Step 6: Verify the backup on both servers**
+- Check the backup directory for the zip file on both App Server 3 and the backup server.
+  ```
+  ls -la /backup
+  ssh clint@stbkp01
+  ls -la /backup
+  exit
+  ```
+  > *Ensures the backup file exists in the correct location on both servers.*
+
+**Step 7: Complete the task**
+- Click on confirm to complete the task.
