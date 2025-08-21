@@ -1,23 +1,67 @@
-xFusionCorp Industries is planning to host a WordPress website on their infra in Stratos Datacenter. They have already done infrastructure configuration—for example, on the storage server they already have a shared directory /vaw/www/html that is mounted on each app host under /var/www/html directory. Please perform the following steps to accomplish the task:
+# Question
+xFusionCorp Industries is planning to host a WordPress website on their infra in Stratos Datacenter. The infrastructure is configured with a shared directory mounted on each app host. Complete the following steps to set up the LAMP stack and database:
 
+**a. Install httpd, php, and dependencies on all app hosts.**
+**b. Configure Apache to serve on port 5000.**
+**c. Install and configure MariaDB server on the DB Server.**
+**d. Create a database named `kodekloud_db7` and a user `kodekloud_pop` with password `YchZHRcLkL`, granting full permissions.**
+**e. Verify the website can connect to the database using the created user.**
 
+<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-a. Install httpd, php and its dependencies on all app hosts.
+# Steps
 
+**Step 1: Install Apache and PHP on all app servers**
+- SSH into each app server and install required packages.
+  ```
+  ssh tony@stapp01
+  sudo yum install httpd -y
+  sudo yum install php php-mysqlnd php-pdo php-gd php-mbstring -y
+  ```
+  > *Installs Apache web server and PHP with necessary extensions for WordPress.*
 
-b. Apache should serve on port 5000 within the apps.
+**Step 2: Configure Apache to listen on port 5000**
+- Edit the Apache configuration to change the listening port.
+  ```
+  sudo vi /etc/httpd/conf/httpd.conf
+  ```
+  > *Change `Listen 80` to `Listen 5000`. Also update any `<VirtualHost>` sections to `*:5000` if present.*
 
+**Step 3: Enable and start Apache**
+- Make sure Apache starts on boot and is running.
+  ```
+  sudo systemctl enable httpd
+  sudo systemctl start httpd
+  sudo ss -tulpn | grep httpd
+  ```
+  > *Enables and starts Apache, then verifies it is listening on port 5000.*
 
-c. Install/Configure MariaDB server on DB Server.
+**Note:** Steps 1-3 should be performed on all app servers (e.g., stapp01, stapp02, stapp03) to ensure the LAMP stack is properly configured across the infrastructure.
 
+**Step 4: Install and start MariaDB on the DB Server**
+- SSH into the DB server and install MariaDB.
+  ```
+  ssh peter@stdb01
+  sudo yum install -y mariadb-server
+  sudo systemctl enable mariadb
+  sudo systemctl start mariadb
+  ```
+  > *Installs and starts the MariaDB database server.*
 
-d. Create a database named kodekloud_db7 and create a database user named kodekloud_pop identified as password YchZHRcLkL. Further make sure this newly created user is able to perform all operation on the database you created.
+**Step 5: Create the database and user, and grant permissions**
+- Access MariaDB and set up the database and user.
+  ```
+  mysql -u root
+  CREATE DATABASE kodekloud_db7;
+  CREATE USER 'kodekloud_pop'@'%' IDENTIFIED BY 'YchZHRcLkL';
+  GRANT ALL PRIVILEGES ON kodekloud_db7.* TO 'kodekloud_pop'@'%';
+  FLUSH PRIVILEGES;
+  ```
+  > *Creates the database and user, grants all privileges, and allows remote connections from app servers.*
 
+**Step 6: Verify connectivity from the website**
+- Access the website via the LBR link or App button and check for the message:
+  > *App is able to connect to the database using user kodekloud_pop.*
 
-e. Finally you should be able to access the website on LBR link, by clicking on the App button on the top bar. You should see a message like App is able to connect to the database using user kodekloud_pop
-
-
-ssh into all the app servers & do these tasks
-
-sudo yum install -y httpd php php-mysqlnd php-fpm
-
+**Step 7: Complete the task**
+- Click on confirm to complete the task
