@@ -1,61 +1,89 @@
 # Question
-The Nautilus application development team has been working on a project repository `/opt/media.git`. This repo is cloned at 
-`/usr/src/kodekloudrepos` on storage server in Stratos DC. They recently shared the following requirements with DevOps team:
+The Nautilus application development team has been working on a project repository `/opt/blog.git`. This repo is cloned at `/usr/src/kodekloudrepos` on the storage server in Stratos DC. They recently shared the following requirements with the DevOps team: Create a new branch `devops` in `/usr/src/kodekloudrepos/blog` repo from `master` and copy the `/tmp/index.html` file (present on storage server itself) into the repo. Further, add/commit this file in the new branch and merge back that branch into `master` branch. Finally, push the changes to the origin for both branches.
 
-**Create a new branch devops in `/usr/src/kodekloudrepos/media` repo from master and copy the `/tmp/index.html` file (present on storage server itself) into the repo. Further, `add/commit` this file in the new branch and merge back that branch into `master` branch. Finally, push the changes to the `origin` for both of the branches.**
+<span style="color: red;">The below commands are based on specific server, username, and other details that might differ. Please read the task carefully before executing.</span>
 
-<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
+# Steps
 
-SSH to storage server and switch to root
+**Step 1: SSH to the storage server and switch to root user**
+- Connect to the server and gain root privileges.
+  ```
+  ssh natasha@ststor01
+  sudo su -
+  ```
+  > *Establishes a secure shell session to the storage server as user natasha, then switches to root for administrative access.*
 
-```
-ssh natasha@ststor01
-```
-```
-sudo su -
-```
+**Step 2: Move into the blog repository**
+- Change to the directory containing the cloned git repository.
+  ```
+  cd /usr/src/kodekloudrepos/blog
+  ```
+  > *Ensures you are in the correct location before running git commands.*
 
-**Navigate to the Repository**:
+**Step 3: Ensure you’re on the master branch**
+- Switch to the master branch to start from the main codebase.
+  ```
+  git checkout master
+  ```
+  > *Makes sure you are working from the latest master branch before creating a new branch.*
 
+**Step 4: Create and switch to the devops branch**
+- Create a new branch and switch to it.
+  ```
+  git checkout -b devops
+  ```
+  > *Creates a new branch named `devops` from master and switches to it for isolated changes.*
 
-   ```bash
-   cd /usr/src/kodekloudrepos/media
-   ```
-**Create the New Branch and Switch to It**:
+**Step 5: Copy the index.html file into the repo**
+- Copy the required file from `/tmp` to the repository directory.
+  ```
+  cp /tmp/index.html .
+  ```
+  > *Adds the requested file to the repository for tracking and version control.*
 
-   Create a new branch (`devops`) from the `master` branch and switch to that branch:
+**Step 6: Stage and commit the file**
+- Add the file to git and commit the change.
+  ```
+  git add index.html
+  git commit -m "Added index.html file as requested"
+  ```
+  > *Stages and commits the new file to the devops branch with a descriptive message.*
 
-   ```bash
-   git checkout -b devops master
-   ```
+**Step 7: Push the devops branch to origin**
+- Push the new branch and its changes to the remote repository.
+  ```
+  git push origin devops
+  ```
+  > *Uploads the devops branch and its commits to the remote origin for collaboration.*
 
-**Copy the `index.html` File**:
+**Step 8: Switch back to master branch**
+- Return to the master branch to prepare for merging.
+  ```
+  git checkout master
+  ```
+  > *Ensures you are on master before merging changes from devops.*
 
+**Step 9: Merge devops into master**
+- Merge the changes from devops branch into master.
+  ```
+  git merge devops
+  ```
+  > *Integrates the changes from devops into the main codebase.*
 
-   ```bash
-   cp /tmp/index.html .
-   ```
+**Step 10: Push master to origin**
+- Push the updated master branch to the remote repository.
+  ```
+  git push origin master
+  ```
+  > *Uploads the merged changes to the remote master branch for others to use.*
 
-**Add and Commit the `index.html` File**:
+**Step 11: Verification**
+- Check branches and confirm the file exists in master.
+  ```
+  git branch -a
+  ls | grep index.html
+  ```
+  > *Verifies both branches exist and the file is present in master.*
 
-   ```bash
-   git add index.html
-   git commit -m "Add index.html to devops branch"
-   ```
-
-**Merge the `devops` Branch into `master`**:
-
-   Switch back to the `master` branch and merge the changes from the `devops` branch into `master`:
-
-   ```bash
-   git checkout master
-   git merge devops
-   ```
-
-**Push the Changes to the Origin for Both Branches**:
-   ```bash
-   git push origin master
-   git push origin devops
-   ```
-
-Click on confirm to complete the task
+**Step 12: Complete the task**
+- Click on confirm to complete the task.
