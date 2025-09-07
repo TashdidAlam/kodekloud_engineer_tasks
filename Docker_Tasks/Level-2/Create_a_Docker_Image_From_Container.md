@@ -1,34 +1,40 @@
 # Question
-One of the Nautilus developer was working to test new changes on a container. He wants to keep a backup of his changes to the container. A new request has been raised for the DevOps team to create a new image from this container. Below are more details about it:
+One of the Nautilus developers was working to test new changes on a container. He wants to keep a backup of his changes to the container. A new request has been raised for the DevOps team to create a new image from this container. Below are more details about it:
 
-**a. Create an image `official:devops` on Application Server 3 from a container `ubuntu_latest` that is running on same server.**
+**a. Create an image `official:devops` on Application Server 3 from a container `ubuntu_latest` that is running on the same server.**
 
-<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
+<span style="color: red;">The below commands are based on specific server, username, and other details that might differ. Please read the task carefully before executing.</span>
 
-**SSH into App Server 1 & switch to root**:
+# Steps
 
-```bash
-ssh banner@stapp03
-```
-```
-sudo su
-```
+**Step 1: SSH into App Server 3 and switch to root user**
+- Connect to the server and gain root privileges.
+  ```
+  ssh banner@stapp03
+  sudo su
+  ```
+  > *Establishes a secure shell session to App Server 3 as user banner, then switches to root for administrative access.*
 
-Find the container ID or name of the running container (`ubuntu_latest`). You can use the `docker ps` command to list running containers:
+**Step 2: Identify the running container**
+- List running containers to confirm the container name or ID.
+  ```
+  docker ps
+  ```
+  > *Displays all running containers and helps you identify the `ubuntu_latest` container.*
 
-```bash
-docker ps
-```
+**Step 3: Create a new image from the running container**
+- Use the docker commit command to create a new image from the container.
+  ```
+  docker commit ubuntu_latest official:devops
+  ```
+  > *Creates a new image named `official:devops` from the current state of the `ubuntu_latest` container, preserving all changes made inside the container.*
 
-Once you have identified the container, use the `docker commit` command to create a new image from it and specify the desired image name (`official:devops`):
+**Step 4: Verify the new image**
+- List all Docker images to confirm the new image exists.
+  ```
+  docker images
+  ```
+  > *Displays all available images and confirms that `official:devops` is present.*
 
-```bash
-docker commit <container_id_or_name> official:devops
-```
-
-Docker will create a new image with the name `official:devops`. You can verify this by running:
-
-```bash
-docker images
-```
-Click on confirm to complete the task
+**Step 5: Complete the task**
+- Click on confirm to complete the task
