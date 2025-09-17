@@ -1,23 +1,46 @@
-# Question
-The Nautilus DevOps team has started practicing some pods and services deployment on Kubernetes platform, as they are planning to migrate most of their applications on Kubernetes. Recently one of the team members has been assigned a task to create a deployment as per details mentioned below:
 
-**Create a deployment named `nginx` to deploy the application `nginx` using the image `nginx:latest` (remember to mention the tag as well)**
+# Problem: Create a Deployment in Kubernetes Cluster (nginx)
 
-Note: The `kubectl` utility on `jump_host` has been configured to work with the kubernetes cluster.
+The Nautilus DevOps team is practicing pod and service deployment on Kubernetes. Your task is to create a deployment as per the requirements below:
 
-<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
+**Requirements:**
+- Deployment name: `nginx`
+- Application: `nginx`
+- Image: `nginx:latest` (must specify the tag)
+- The `kubectl` utility is already configured on the jump host.
 
-Create the deployment using this command
+---
+
+## Step-by-Step Solution
+
+**Step 1: Create the deployment using kubectl**
+
+- Use the following command to create the deployment with the required image:
+
+```bash
+kubectl create deploy nginx --image=nginx:latest
 ```
-kubectl create deploy nginx --image nginx:latest
-```
-Validate the task by running below commands
+> *Creates a deployment named `nginx` using the `nginx:latest` image. The `--image` flag specifies the container image and tag to use for the deployment.*
 
-```
+---
+
+**Step 2: Validate the deployment and pods**
+
+- Check that the deployment was created successfully:
+
+```bash
 kubectl get deploy
 ```
+> *Lists all deployments in the current namespace to confirm that the `nginx` deployment exists.*
 
-```
+- Check that the pods for the deployment are running:
+
+```bash
 kubectl get pods
 ```
-Click on confirm to complete the task
+> *Lists all pods in the current namespace to confirm that the pods created by the `nginx` deployment are running.*
+
+---
+
+**Summary:**
+- You have created a deployment named `nginx` using the `nginx:latest` image and verified that the deployment and its pods are running in the Kubernetes cluster.

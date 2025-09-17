@@ -1,30 +1,45 @@
 # Question
-The Nautilus DevOps team has started practicing some pods and services deployment on Kubernetes platform as they are planning to migrate most of their applications on Kubernetes platform. Recently one of the team members has been assigned a task to create a pod as per details mentioned below:
+The Nautilus DevOps team is practicing pod and service deployment on Kubernetes. Your task is to create a pod as per the requirements below:
 
-**Create a pod named `pod-httpd` using `httpd` image with `latest` tag only and remember to mention the tag i.e `httpd:latest`.**
+**Requirements:**
+- Pod name: `pod-httpd`
+- Image: `httpd:latest` (must specify the tag)
+- Container name: `httpd-container`
+- Label: `app: httpd_app`
+- The `kubectl` utility is already configured on the jump host.
 
-**Labels app should be set to `httpd_app`, also container should be named as `httpd-container`.**
+---
 
-**Note: The kubectl utility on jump_host has been configured to work with the kubernetes cluster.**
+## Step-by-Step Solution
 
-<span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
+**Step 1: Verify kubectl configuration and cluster connectivity**
 
-At first check kubectl utility configure and working from jump server
+- Check that `kubectl` is configured and can communicate with the cluster:
 
+```bash
+kubectl get namespace
 ```
- kubectl get namespace
-```
-```
+> *Lists all namespaces in the cluster to confirm connectivity.*
+
+```bash
 kubectl get pods
 ```
-Now create the yml file for deployment
+> *Lists all pods in the current namespace to confirm kubectl is working.*
 
-```
+---
+
+**Step 2: Create the pod manifest YAML file**
+
+- Use a text editor to create the pod definition file:
+
+```bash
 vi /tmp/pod.yml
 ```
-In pod.yml add this
+> *Opens the file `/tmp/pod.yml` for editing. This file will define the pod's configuration.*
 
-```
+- Add the following content to `/tmp/pod.yml`:
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -36,14 +51,31 @@ spec:
   - name: httpd-container
     image: httpd:latest
 ```
+> *Defines a pod named `pod-httpd` with the required label and container configuration. The image is explicitly set to `httpd:latest`.*
 
-Run below command to create pod
+---
+
+**Step 3: Create the pod using kubectl**
+
+- Apply the manifest to create the pod:
+
+```bash
+kubectl create -f /tmp/pod.yml
 ```
-kubectl create -f /tmp/pod.yaml
-```
-Check is the pod running or not
-```
+> *Creates the pod in the cluster using the configuration defined in `/tmp/pod.yml`.*
+
+---
+
+**Step 4: Verify the pod is running**
+
+- Check the status of the pod:
+
+```bash
 kubectl get pods -o wide
 ```
+> *Lists all pods with detailed information to confirm that `pod-httpd` is running.*
 
-Click on confirm to complete the task
+---
+
+**Summary:**
+- You have created a pod named `pod-httpd` using the `httpd:latest` image, with the required label and container name, and verified it is running in the Kubernetes cluster.

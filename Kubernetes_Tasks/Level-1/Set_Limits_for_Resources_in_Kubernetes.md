@@ -11,12 +11,22 @@ Recently some of the performance issues were observed with some applications hos
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-Create a yml file named `httpd-pod.yml` 
+---
+
+## Step-by-Step Solution
+
+**Step 1: Create the pod manifest YAML file**
+
+- Use a text editor to create the pod definition file:
+
+```bash
+vi httpd-pod.yml
 ```
-vim httpd-pod.yml
-```
-Add these in that yml file
-```
+> *Opens the file `httpd-pod.yml` for editing. This file will define the pod's configuration and resource limits.*
+
+- Add the following content to `httpd-pod.yml`:
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -33,12 +43,31 @@ spec:
         memory: "20Mi"
         cpu: "100m"
 ```
-Use kubectl to create the pod by applying the YAML manifest
-```
+> *Defines a pod named `httpd-pod` with the required container, image, and resource requests/limits. Requests specify the minimum resources guaranteed, and limits specify the maximum resources allowed.*
+
+---
+
+**Step 2: Create the pod using kubectl**
+
+- Apply the manifest to create the pod:
+
+```bash
 kubectl apply -f httpd-pod.yml
 ```
-To verify that the pod has been created successfully and check its resource settings, you can use the following command
-```
+> *Creates the pod in the cluster using the configuration defined in `httpd-pod.yml`.*
+
+---
+
+**Step 3: Verify the pod and its resource settings**
+
+- Check that the pod has been created successfully and review its resource configuration:
+
+```bash
 kubectl describe pod httpd-pod
 ```
-Click on confirm to complete the task
+> *Displays detailed information about the `httpd-pod`, including its resource requests and limits. Confirm that the values match the requirements.*
+
+---
+
+**Summary:**
+- You have created a pod named `httpd-pod` with the required resource requests and limits, and verified its configuration in the Kubernetes cluster.
