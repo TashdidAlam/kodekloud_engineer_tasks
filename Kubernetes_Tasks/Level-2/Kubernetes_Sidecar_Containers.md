@@ -15,13 +15,22 @@ We have a web server container running the nginx image. The access and error log
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-First Create the manifest file
+---
+
+## Step-by-Step Solution
+
+**Step 1: Create the pod manifest YAML file**
+
+- Use a text editor to create the pod definition file:
+
 ```bash
 vi webserver.yml
 ```
+> *Opens the file `webserver.yml` for editing. This file will define the pod, containers, and shared volume.*
 
-Add these inside that yml file
-```
+- Add the following content to `webserver.yml`:
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -43,15 +52,26 @@ spec:
     - name: shared-logs
       mountPath: /var/log/nginx
 ```
+> *Defines a pod with two containers: one running nginx and one running ubuntu as a sidecar for log shipping. Both containers mount the same `emptyDir` volume at `/var/log/nginx`.*
 
-Now apply the yml file
+---
+
+**Step 2: Create the pod using kubectl**
+
+- Apply the manifest to create the pod:
+
 ```bash
 kubectl apply -f webserver.yml
 ```
+> *Creates the pod in the cluster using the configuration defined in `webserver.yml`.*
 
-verify the task
+---
+
+**Step 3: Verify the sidecar container is shipping logs**
+
+- Check the logs of the sidecar container to confirm it is reading and outputting nginx logs:
+
 ```bash
 kubectl logs -f webserver -c sidecar-container
 ```
-
-Click on confirm to complete the task
+> *Streams the logs from the sidecar container, showing the output of the log shipping command. This confirms the sidecar pattern is working as intended.*

@@ -7,21 +7,44 @@ This morning the Nautilus DevOps team rolled out a new release for one of the ap
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-You can check the deployments
-```
+---
+
+## Step-by-Step Solution
+
+**Step 1: Check the current deployments and pods**
+
+- List all deployments in the cluster:
+
+```bash
 kubectl get deploy
 ```
-```
+> *Shows all deployments in the current namespace to confirm the existence of `nginx-deployment`.*
+
+- List all pods to see the current state of the application:
+
+```bash
 kubectl get pods
 ```
-Run the below command to revert to an earlier release
-```
-kubectl rollout undo deployment  nginx-deployment
-```
+> *Displays all pods in the current namespace, allowing you to review their status before rollback.*
 
-Validate the task by running the below command
+---
 
+**Step 2: Rollback the deployment to the previous revision**
+
+- Use the following command to revert the deployment to its previous state:
+
+```bash
+kubectl rollout undo deployment nginx-deployment
 ```
-kubectl rollout status deployment  nginx-deployment
+> *Rolls back the `nginx-deployment` to the previous revision, undoing the most recent changes.*
+
+---
+
+**Step 3: Validate the rollback status**
+
+- Monitor the status of the deployment to ensure the rollback is complete and all pods are running:
+
+```bash
+kubectl rollout status deployment nginx-deployment
 ```
-Click on confirm to complete the task
+> *Checks the progress and completion of the rollback, confirming that the deployment is stable and pods are up.*

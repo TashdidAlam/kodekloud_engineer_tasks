@@ -18,12 +18,22 @@ We are working on an application that will be deployed on multiple containers wi
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-**Create the manifest file with name volume-share-datacenter.yml**
-```
+---
+
+## Step-by-Step Solution
+
+**Step 1: Create the pod manifest YAML file**
+
+- Use a text editor to create the pod definition file:
+
+```bash
 vi volume-share-datacenter.yml
 ```
-Add this inside the yml file
-```
+> *Opens the file `volume-share-datacenter.yml` for editing. This file will define the pod, containers, and shared volume.*
+
+- Add the following content to `volume-share-datacenter.yml`:
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -46,26 +56,53 @@ spec:
   - name: volume-share
     emptyDir: {}
 ```
-Now create the pod
+> *Defines a pod with two containers, each mounting the same `emptyDir` volume at different paths. This allows sharing files between containers.*
+
+---
+
+**Step 2: Create the pod using kubectl**
+
+- Apply the manifest to create the pod:
+
 ```bash
 kubectl apply -f volume-share-datacenter.yml
 ```
-Now exect into the container 1 and run the commands
+> *Creates the pod in the cluster using the configuration defined in `volume-share-datacenter.yml`.*
+
+---
+
+**Step 3: Create a test file in the first container**
+
+- Exec into the first container and create a file in the shared volume:
+
 ```bash
 kubectl exec -it volume-share-datacenter -c volume-container-datacenter-1 -- /bin/sh
 ```
-Inside Container
+> *Opens a shell inside `volume-container-datacenter-1` to interact with the shared volume.*
+
+- Inside the container, run:
+
 ```bash
 echo "Hello from container 1" > /tmp/ecommerce/ecommerce.txt
 exit
 ```
-Now test the file existence
+> *Creates a file in the shared volume. The file should be accessible from both containers.*
+
+---
+
+**Step 4: Verify the file exists in the second container**
+
+- Exec into the second container and check for the file:
+
 ```bash
 kubectl exec -it volume-share-datacenter -c volume-container-datacenter-2 -- /bin/sh
 ```
-Run this command
+> *Opens a shell inside `volume-container-datacenter-2` to verify the shared volume.*
+
+- Inside the container, run:
+
 ```bash
 cat /tmp/apps/ecommerce.txt
 exit
 ```
-If the file gives output then Click on confirm to complete the task
+> *Displays the contents of the file created in the first container, confirming the shared volume is working.*

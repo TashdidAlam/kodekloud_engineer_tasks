@@ -9,60 +9,100 @@ We deployed a Nginx and PHP-FPM based setup on Kubernetes cluster last week and 
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-Check existing running pods 
+---
 
-```
+## Step-by-Step Solution
+
+**Step 1: Check existing running pods**
+
+- List all pods in the cluster to confirm the pod is present and see its status:
+
+```bash
 kubectl get pods
 ```
+> *Shows all pods in the current namespace, allowing you to verify the status of `nginx-phpfpm`.*
 
-Check the shared volume path in existing config map
+---
 
-```
+**Step 2: Check the shared volume path in the config map**
+
+- List all configmaps and describe the relevant one to find the document root:
+
+```bash
 kubectl get configmap
-```
-```
 kubectl describe configmap nginx-config
 ```
+> *Displays the configuration details for `nginx-config`, including the root path (e.g., `root /var/www/html;`).*
 
-For my case the root was
-`root /var/www/html;`
+---
 
-Get the configuration in the YAML file from the running pod
+**Step 3: Get the pod configuration in YAML format**
 
-```
-kubectl get pod nginx-phpfpm -o yaml  > /tmp/nginx.yaml
-```
-Edit the nginx.yaml file and change ‘/usr/share/nginx/html’ to ‘/var/www/html’ in all places.
+- Export the running pod's configuration to a YAML file for editing:
 
+```bash
+kubectl get pod nginx-phpfpm -o yaml > /tmp/nginx.yaml
 ```
-vi nginx.yaml
-```
-After changing check if any place left not edited
-```
-cat /tmp/nginx.yaml  |grep /usr/share/nginx/html
-```
+> *Saves the current configuration of `nginx-phpfpm` to `/tmp/nginx.yaml` for review and modification.*
 
-if there is no output then all places are being replaced
+---
 
-Post changes the mount path run below command to replace the running pods
+**Step 4: Edit the YAML file to fix the mount path**
 
+- Open the YAML file and change all instances of `/usr/share/nginx/html` to `/var/www/html`:
+
+```bash
+vi /tmp/nginx.yaml
 ```
+> *Edits the pod configuration to match the correct document root as specified in the configmap.*
+
+- After editing, check for any remaining incorrect paths:
+
+```bash
+cat /tmp/nginx.yaml | grep /usr/share/nginx/html
+```
+> *Ensures all instances have been replaced. If there is no output, all paths are updated.*
+
+---
+
+**Step 5: Replace the running pod with the updated configuration**
+
+- Apply the updated YAML to force replace the pod:
+
+```bash
 kubectl replace -f /tmp/nginx.yaml --force
 ```
-Wait for pods to get running status
-```
+> *Replaces the existing pod with the corrected configuration, ensuring the mount path is fixed.*
+
+---
+
+**Step 6: Wait for the pod to reach running status**
+
+- Monitor the pod status until it is running:
+
+```bash
 kubectl get pods
 ```
-Now copy the index.php file as per the task.
+> *Confirms that the pod is up and running after the replacement.*
 
-```
-kubectl cp  /home/thor/index.php  nginx-phpfpm:/var/www/html -c nginx-container
-```
+---
 
-Now click on the website button or check with this command that if the website is accessible or not
+**Step 7: Copy the index.php file to the container**
 
-```
-kubectl exec -it nginx-phpfpm -c nginx-container  -- curl -I  http://localhost:8099
-```
+- Use the following command to copy the required file from the jump host to the container's document root:
 
-If all ok then click on confirm to complete the task
+```bash
+kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html -c nginx-container
+```
+> *Copies `index.php` into the correct location inside the container, as required by the task.*
+
+---
+
+**Step 8: Verify website accessibility**
+
+- Check if the website is accessible by executing a curl command inside the container:
+
+```bash
+kubectl exec -it nginx-phpfpm -c nginx-container -- curl -I http://localhost:8099
+```
+> *Executes a curl request from within the container to verify that the web server is serving content on port 8099.*
