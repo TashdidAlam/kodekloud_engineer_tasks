@@ -9,96 +9,89 @@ Some of the Nautilus team developers are developing a static website and they wa
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-1. At first  check existing deployment and  pods running status
-```bash
-    kubectl get namespace
-    kubectl get pods
-```
-
-2. Create YAML  file with all the parameters
-
-```bash
-apiVersion: v1
-
-kind: Service
-
-metadata:
-
-  name: nginx-service
-
-spec:
-
-  type: NodePort
-
-  selector:
-
-    app: nginx-app
-
-    type: front-end
-
-  ports:
-
-    - port: 80
-
-      targetPort: 80
-
-      nodePort: 30011
 
 ---
 
-apiVersion: apps/v1
+## Step-by-Step Solution
 
-kind: Deployment
+**Step 1: Check existing deployments and pods**
 
+- List all namespaces and pods to confirm the cluster is ready and see current resources:
+
+```bash
+kubectl get namespace
+kubectl get pods
+```
+> *Shows all namespaces and pods in the cluster, allowing you to verify the environment before deploying.*
+
+---
+
+**Step 2: Create the YAML manifest for the deployment and service**
+
+- Use a text editor to create the manifest file with all required parameters:
+
+```bash
+vi /tmp/nginx.yml
+```
+> *Opens the file `/tmp/nginx.yml` for editing. Paste the following manifest and save the file:*
+
+```yaml
+apiVersion: v1
+kind: Service
 metadata:
-
-  name: nginx-deployment
-
-  labels:
-
-    app: nginx-app
-
-    type: front-end
-
+  name: nginx-service
 spec:
-
-  replicas: 3
-
+  type: NodePort
   selector:
-
+    app: nginx-app
+    type: front-end
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30011
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-app
+    type: front-end
+spec:
+  replicas: 3
+  selector:
     matchLabels:
-
       app: nginx-app
-
       type: front-end
-
   template:
-
     metadata:
-
       labels:
-
         app: nginx-app
-
         type: front-end
-
     spec:
-
       containers:
-
         - name: nginx-container
-
           image: nginx:latest
 ```
-3. Run below command to create pod 
+---
 
-```
+**Step 3: Create the deployment and service using kubectl**
+
+- Apply the manifest to create the resources:
+
+```bash
 kubectl create -f /tmp/nginx.yml
 kubectl get pods
 ```
+> *Creates the deployment and service in the cluster, then lists pods to confirm they are running.*
 
-4. Validate the task by running below command 
+---
+
+**Step 4: Validate the deployment**
+
+- Exec into one of the running pods to test the web server:
+
+```bash
+kubectl exec <nginx-pod-name> -- curl http://localhost
 ```
-kubectl exec nginx-deployment-56cdb5d774-49rqs  -- curl http://localhost
-```
-Click on confirm to complete the task
+> *Runs a curl command inside the nginx pod to verify the web server is serving content. Replace `<nginx-pod-name>` with the actual pod name from `kubectl get pods` output.*

@@ -11,77 +11,66 @@ Note: The kubeclt on jump_host has been configured to work with kubernetes clust
 
 <span style="color: red;">The below commands based on different question server, user name & other details that might differ. So please read the task carefully before executing it. </span>
 
-Create a YAML  file with all the parameters
-```
-vi /tmp/grafana.yaml
-```
-```
-apiVersion: v1
-
-kind: Service
-
-metadata:
-
-  name: grafana-service-nautilus
-
-spec:
-
-  type: NodePort
-
-  selector:
-
-    app: grafana
-
-  ports:
-
-    - port: 3000
-
-      targetPort: 3000
-
-      nodePort: 32000
 
 ---
 
-apiVersion: apps/v1
+## Step-by-Step Solution
 
-kind: Deployment
+**Step 1: Create the YAML manifest for the deployment and service**
 
+- Use a text editor to create the manifest file with all required parameters:
+
+```bash
+vi /tmp/grafana.yaml
+```
+> *Opens the file `/tmp/grafana.yaml` for editing. Paste the following manifest and save the file:*
+
+```yaml
+apiVersion: v1
+kind: Service
 metadata:
-
-  name: grafana-deployment-nautilus
-
+  name: grafana-service-nautilus
 spec:
-
+  type: NodePort
   selector:
-
+    app: grafana
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 32000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment-nautilus
+spec:
+  selector:
     matchLabels:
-
       app: grafana
-
   template:
-
     metadata:
-
       labels:
-
         app: grafana
-
     spec:
-
       containers:
-
         - name: grafana-container-nautilus
-
           image: grafana/grafana:latest
-
           ports:
-
             - containerPort: 3000
 ```
-Run the below command to create a pod 
-```
+---
+
+**Step 2: Create the deployment and service using kubectl**
+
+- Apply the manifest to create the resources:
+
+```bash
 kubectl create -f /tmp/grafana.yaml
 ```
-Validate the task by open port view
+> *Creates the deployment and service in the cluster using the configuration defined in `/tmp/grafana.yaml`.*
 
-Click on confirm to complete the task
+---
+
+**Step 3: Validate the deployment by accessing the NodePort**
+
+- Open the port view in your environment or browser to access Grafana at the exposed NodePort (32000) and confirm the login page is accessible.
