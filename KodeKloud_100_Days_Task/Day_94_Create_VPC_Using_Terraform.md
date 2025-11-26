@@ -1,17 +1,9 @@
 # Question
-The Nautilus DevOps team is strategizing the migration of a portion of their infrastructure to the AWS cloud. Recognizing the scale of this undertaking, they have opted to approach the migration in incremental steps rather than as a single massive transition. To achieve this, they have segmented large tasks into smaller, more manageable units. 
+The Nautilus DevOps team is strategizing the migration of a portion of their infrastructure to the AWS cloud. Recognizing the scale of this undertaking, they have opted to approach the migration in incremental steps rather than as a single massive transition. To achieve this, they have segmented large tasks into smaller, more manageable units. This granular approach enables the team to execute the migration in gradual phases, ensuring smoother implementation and minimizing disruption to ongoing operations. By breaking down the migration into smaller tasks, the Nautilus DevOps team can systematically progress through each stage, allowing for better control, risk mitigation, and optimization of resources throughout the migration process.
 
-For this task, create an EC2 instance using Terraform with the following requirements: 
+Create a VPC named datacenter-vpc in region us-east-1 with any IPv4 CIDR block through terraform.
 
-The name of the instance must be `xfusion-ec2`. 
-
-Use the Amazon Linux `ami-0c101f26f147fa7fd` to launch this instance. 
-
-The Instance type must be t2.micro. 
-
-Create a new RSA key named xfusion-kp. Attach the default (available by default) security group. 
-
-The Terraform working directory is /home/bob/terraform. Create the main.tf file (do not create a different .tf file) to provision the instance. 
+The Terraform working directory is /home/bob/terraform. Create the main.tf file (do not create a different .tf file) to accomplish this task.
 
 Note: Right-click under the EXPLORER section in VS Code and select Open in Integrated Terminal to launch the terminal.
 
@@ -27,26 +19,14 @@ Note: Right-click under the EXPLORER section in VS Code and select Open in Integ
 **Step 2: Write the Terraform configuration**
 - Add the following content to `main.tf`:
   ```hcl
-    data "aws_security_group" "default" {
-        name = "default"
-    }
+resource "aws_vpc" "datacenter-vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
 
-    resource "aws_key_pair" "xfusion_kp" {
-    key_name   = "xfusion-kp"
-    public_key = file("xfusion-kp.pub")
-    }
-
-    resource "aws_instance" "xfusion_ec2" {
-    ami           = "ami-0c101f26f147fa7fd"
-    instance_type = "t2.micro"
-    key_name      = aws_key_pair.xfusion_kp.key_name
-
-    vpc_security_group_ids = [data.aws_security_group.default.id]
-
-    tags = {
-        Name = "xfusion-ec2"
-    }
-    }
+  tags = {
+    Name = "datacenter-vpc"
+  }
+}
   ```
 
 **Step 3: Initialize Terraform**
